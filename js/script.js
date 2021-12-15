@@ -16,12 +16,17 @@ let num2 = document.getElementById('pagination2');
 let num3 = document.getElementById('pagination3');
 let lastPage = document.getElementById('pagination-last');
 
+let i = 0; //Start point of image slider
+const images = []; //Empty array for images
+let time = 5000; //Time for each slide, 3sec
+
 //Default value
 let pageAmount = 10;
 let currentPage = 1;
 
 //Global variables that will store data so it can be used in multiple funcitons 
 let searchDataPage; //store data.photos.page
+let page;
 let searchWord; //store query search word
 let allPages; //store data.photos.pages 
 
@@ -36,6 +41,28 @@ document.getElementById('drop-down-arrow').addEventListener('click', perPageAmou
 //clicking on next and prev buttons to run a function 
 next.addEventListener('click', changePage);
 prev.addEventListener('click', prevPage);
+
+
+//Change image slider function
+function changeImg(){
+    //Image list
+    images[0] ='assets/image1.jpg';
+    images[1] ='assets/image2.jpg';
+    images[2] ='assets/image3.jpg';
+
+    document.slide.src = images[i];
+
+    if(i < images.length - 1){
+        i++;
+    } else {
+        i = 0;
+    }
+
+    setTimeout("changeImg()", time);
+}
+
+window.onload = changeImg;
+
 
 //Function clear search 
 clearSearch.addEventListener('click', () => {
@@ -113,19 +140,28 @@ async function getImages (query) {
     const response = await fetch(url + `&text=${query}&per_page=${pageAmount}&page=${currentPage}&format=json&nojsoncallback=1&api_key=${key}&sort=relevance`);
     const data = await response.json();
 
-    //sets value of the pages within the image search word 
-    searchDataPage = data.photos.page;
-    //sets searchword to the query word 
-    searchWord = query;
-    //sets allpages with how many pages there is within the search word 
-    allPages = data.photos.pages;
-    //adds class active to pagenumbers 
-    pageNumbers.classList.add('active');
-    //sets lastpage of the pagination to all of the pages within the search word 
-    lastPage.innerHTML = allPages;
-    //sends the parameter data.photos.photo to renderImages which is the list of all the images within the search word  
-    renderImages(data.photos.photo);  
+    if (!query) {
+        allPages = data.photos.pages;
+        pageNumbers.classList.add('active');
+        lastPage.innerHTML = allPages;
+        renderImages(data.photos.photo)
+    } else {
+        //sets value of the pages within the image search word 
+        searchDataPage = data.photos.page;
+        //sets searchword to the query word 
+        searchWord = query;
+        //sets allpages with how many pages there is within the search word 
+        allPages = data.photos.pages;
+        //adds class active to pagenumbers 
+        pageNumbers.classList.add('active');
+        //sets lastpage of the pagination to all of the pages within the search word 
+        lastPage.innerHTML = allPages;
+        //sends the parameter data.photos.photo to renderImages which is the list of all the images within the search word  
+        renderImages(data.photos.photo);  
+    }
 };
+
+getImages();
 
 
 
@@ -174,6 +210,8 @@ let renderImages = (images) => {
         };
     })   
 };
+
+
 
 
 //When clicking on next page button 
@@ -245,6 +283,9 @@ function showHotTags(tags) {
         };
     });
 };
+
+
+
 
 //runs function getHotTags 
 getHotTags();

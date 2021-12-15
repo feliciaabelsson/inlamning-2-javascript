@@ -2,7 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Poppins:wght@600;700&display=swap');
 
 :root {
-    --hotpink: rgb(236, 13, 125);
+    --hotpink: #f72585;
+    --white: #f8f9fa;
+    --white-opacity-bg: rgba(255, 255, 255, 0.63);
 }
 
 * {
@@ -13,11 +15,14 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: rgba(0, 0, 0, 0.048);
+    /* background-color: rgba(0, 0, 0, 0.048); */
 }
 
+p {
+    letter-spacing: .5px;
+}
 
-#container {
+/* #container {
     display: grid;
     grid-template-columns: 2rem 1fr 2rem;
     grid-template-rows: auto;
@@ -26,42 +31,76 @@ body {
     ". main ."
     "footer footer footer"
     ;
-}
+} */
 
 h1 {
     margin-top: 7rem;
     margin-bottom: 2rem;
-    color: #333;
+    color: var(--white);
     font-size: 2rem;
 }
 
 /* ----- Form ----- */
-#header {
+#header  {
     grid-area: header;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url("../assets/background.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
+}
+
+#header section {
+    position: relative;
+}
+
+.slide-show-container {
+    height: 80vh;
+    width: 100vw;
+    z-index: -1111;
+    position: relative;
+}
+
+.slide-show-images {
+    width: 100%;
+    height: 100%;
     background-size: cover;
-    min-height: 70vh; 
+    object-fit: cover;
+    z-index: -111;
+}
+
+.layer {
+    background-color: rgba(39, 39, 39, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 form {
     display: flex;
     gap: 1rem;
-    align-items: center;  
+    align-items: center;
+    z-index: 1;  
+}
+
+.search-container {
+    z-index: 12;
+    position: absolute;
+    top: 0;
+    left: 24%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #query {
     min-width: 30rem;
-    padding: 1.5rem 0 1.5rem 3rem;
+    padding: 1rem 0 1rem 3rem;
     font-size: 1rem;
     letter-spacing: .7px;
     border: none;
-    background: #333;
     color: black;
     background: url(../assets/search-solid.svg);
     background-repeat: no-repeat;
@@ -72,7 +111,7 @@ form {
 }
 
 input::placeholder {
-    color: #999;
+    color: rgb(34, 34, 34);
 }
 
 .placeholder-without-value::placeholder {
@@ -85,14 +124,14 @@ input::placeholder {
 
 .container-text-field {
     display: flex; 
-    background-color: rgba(255, 255, 255, 0.63);
+    background-color: var(--white-opacity-bg);
     border-radius: 5px;
     align-items: center;
 }
 
-.clicked  {
+/* .clicked  {
     border-bottom-left-radius: 0px !important;
-}
+} */
 
 #drop-down-arrow {
     cursor: pointer;
@@ -101,17 +140,20 @@ input::placeholder {
     font-size: 2rem;
 }
 
+#drop-down {
+    position: absolute;
+}
+
 /*drop down menu showing when clicked*/
 #drop-down-clicked {
     display: none;
-    width: 30rem;
-    min-height: 5rem;
-    color: #333;
+    min-height: 4rem;
+    color: var(--white);
+    font-weight: normal;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    left: 17.5rem;
-    top: 21.5rem;
-    background: white;
+   
+    background: #111111a9;
     min-width: 20rem;
     z-index: 1;
     padding-left: 1rem;
@@ -119,22 +161,22 @@ input::placeholder {
 }
 
 .radio-title {
-    font-weight: 600;
+    font-weight: 300;
     margin-right: 1rem;
 }
 
 .radio-text {
     margin: 0 .5rem;
-    font-weight: 700;
+    font-weight: 300;
 }
 
 /*Styling radio buttons*/
 input[type='radio'] {
     box-sizing: border-box;
     appearance: none;
-    background: white;
+    background: var(--white);
     outline: 2px solid #333;
-    border: 3px solid white;
+    border: 3px solid var(--white);
     width: 16px;
     height: 16px;
     margin-left: .5rem;
@@ -161,11 +203,12 @@ input[type='radio']:checked {
 
 #search {
     padding: 1rem 2rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    color: white;
+    color: var(--white);
    
     background: var(--hotpink);
     transition: all .2s;
@@ -183,8 +226,7 @@ input[type='radio']:checked {
 }
 
 #hot-tags p {
-    font-size: 1.2rem;
-    font-family: 'Nunito', sans-serif;
+   color: var(--white);
 }
 
 #hot-tags-list {
@@ -193,7 +235,7 @@ input[type='radio']:checked {
     align-items: center;
     gap: 1rem;
     font-weight: 400;
-    color: var(--hotpink);
+    color: var(--white);
     letter-spacing: .5px;
     text-transform: uppercase;
     cursor: pointer;
@@ -206,14 +248,14 @@ input[type='radio']:checked {
 }
 
 #hot-tags-list li:hover {
-    color: #333;
+    color: var(--hotpink);
     font-weight: 700;
 }
 
 #clear-search {
-    font-weight: 700;
+    font-weight: 500;
     padding-top: 2rem;
-    color: #111;
+    color: var(--white);
     cursor: pointer;
     transition: all .2s;
 }
@@ -223,7 +265,7 @@ input[type='radio']:checked {
 }
 
 #clear-search:hover {
-    color: #555;
+    color: var(--hotpink);
 }
 
 /* --X-- form --X-- */
@@ -232,8 +274,8 @@ input[type='radio']:checked {
 /* ----- Image gallery -----*/
 #wrapper {
     grid-area: main;
-    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.13);
-    background-color: white;
+    /* box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.13); */
+    background-color: var(--white);
 }
 
 #images {
@@ -244,7 +286,7 @@ input[type='radio']:checked {
     grid-auto-rows: 400px;
     gap: 1rem;
     padding: 0; 
-    padding: 2rem;
+    padding: 6rem 4rem 2rem 4rem;
 }
 
 #images img {
@@ -407,7 +449,7 @@ input[type='radio']:checked {
 }
 
 .content-text {
-    color: white;
+    color: var(--white);
     padding-top: 2rem;
 }
 /* --X-- Opening big picture --X-- */
@@ -433,7 +475,7 @@ footer button {
 
 .active {
     background: var(--hotpink);
-    color: white;
+    color: var(--white);
     padding: 5px 10px;
 }
 
@@ -450,6 +492,33 @@ footer button {
         "main main main"
         "footer footer footer";
     }
+
+    .slide-show-container {
+        height: 100vh;
+    }
+
+    .search-container {
+       left: 17%;
+    }   
+
+    #hot-tags-list {
+        flex-direction: column;
+        gap: 1rem;
+        font-weight: 400;
+       
+        text-transform: uppercase;
+        cursor: pointer;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+    }
+    
+    #hot-tags-list li {
+        font-size: 1rem;
+    }
+    
+  
+    
+    
 
     /* ----- Form ----- */
     #header {
